@@ -1,0 +1,26 @@
+
+/* ============================================  TIME  ============================================== */
+
+
+#define TIME_BASE_1MS 1
+#define PROCESSOR_CLOCK 350000000L
+static volatile uint64_t graph_interpreter_time64;              /* one global variable */
+
+/*  graph_interpreter_time64" using a global variable
+ *  FEDCBA987654321 FEDCBA987654321 FEDCBA987654321 FEDCBA9876543210
+ *  ____ssssssssssssssssssssssssssssssssqqqqqqqqqqqqqqqqqqqqqqqqqqqq q32.28 [s]  140 Y + Q28 [s]
+ *
+ *  increments for  1ms systick =  0x00041893 =  1ms x 2^28
+ *  increments for 10ms systick =  0x0028F5C2 = 10ms x 2^28
+ */
+
+#if TIME_BASE_1MS == 1
+#define SYSTICK_LOAD_1MS (PROCESSOR_CLOCK/1000)
+#define GRAPHTIME64INC 0x00041893L
+#endif
+#if TIME_BASE_10MS == 1
+#define SYSTICK_LOAD_1MS (PROCESSOR_CLOCK/100)
+#define GRAPHTIME64INC 0x0028F5C2L
+#endif
+
+#define INV_RVR (0x100000000/GRAPHTIME64INC)
