@@ -90,8 +90,6 @@ void arm_stream_null_task (int32_t c, nanograph_handle_t i, void *d, uint32_t *s
 
 
 
-
-#ifdef _MSC_VER 
 FILE* ptf_data_sink;
 FILE* ptf_data_in_1;
 FILE* ptf_sensor_0;
@@ -102,7 +100,6 @@ FILE* ptf_line_out_0;
 FILE* ptf_gpio_out_0;
 FILE* ptf_gpio_out_1;
 FILE* ptf_data_out_0;
-#endif
 
 
 #define size_data_sink 16

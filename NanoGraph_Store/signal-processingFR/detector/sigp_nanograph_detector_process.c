@@ -35,7 +35,7 @@
 #endif
 
 
-#ifdef _MSC_VER
+#ifdef _MSC_VER || __linux__
 #include <stdio.h>
 #endif
 

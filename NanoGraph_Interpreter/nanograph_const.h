@@ -162,11 +162,11 @@
 #define    INST_ID_SCTRL_MSB U(31)  /*  from [A]pp [P]latform [S} scheduler */
 #define     WHOAMI_SCTRL_MSB U(31)
 #define   PRIORITY_SCTRL_MSB U(31)  /*   different RTOS instances*/
-#define   PRIORITY_SCTRL_LSB U(30)  /* 2 [0..3] up to 4 instances per processors, 0=main instance at boot */
+#define   PRIORITY_SCTRL_LSB U(30)  /* 2 [1..3] up to 3 instances per processors, 0="any" */
 #define     PROCID_SCTRL_MSB U(29)  
-#define     PROCID_SCTRL_LSB U(27)  /* 3 processor index [1..7] for this architecture 0="commander processor" */  
+#define     PROCID_SCTRL_LSB U(27)  /* 3 processor index [1..7] for this architecture 0="any" */  
 #define     ARCHID_SCTRL_MSB U(26)     
-#define     ARCHID_SCTRL_LSB U(24)  /* 3 [1..7] processor architectures 1="commander processor architecture" */
+#define     ARCHID_SCTRL_LSB U(24)  /* 3 [1..7] processor architectures  */
 #define     WHOAMI_SCTRL_LSB U(24)  /*   whoami used to lock a NODE to specific processor or architecture */
 #define    INST_ID_SCTRL_LSB U(24)  /*   8 bits identification for locks */
 #define     U0_____SCTRL_MSB U(23)     

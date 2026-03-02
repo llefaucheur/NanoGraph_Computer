@@ -171,14 +171,10 @@
     write memory barrier is executed before cache clean    : saveto(*); WMB; CLEAN(*); 
     read memory barrier is executed after cache invalidate : INVAL(*); RMB; return(*);
  */
-#ifdef _MSC_VER 
 #define DATA_MEMORY_BARRIER
 #define INSTRUCTION_SYNC_BARRIER
 #define CLEAN_BUFFER_1LINE(addr)
 #define INVALIDATE_BUFFER_1LINE(addr) 
-#define CLEAN_BUFFER_RANGE(addr,dsize)
-#define INVALIDATE_BUFFER_RANGE(addr,dsize)  
-#else
 /* void SCB_CleanInvalidateDCache_by_Addr (volatile void * addr, int32_t dsize) */
 #define CLEAN_BUFFER_RANGE(addr,dsize)
 /* void SCB_InvalidateDCache_by_Addr (volatile void * addr, int32_t dsize) */
@@ -190,7 +186,6 @@
 #else
 #define DATA_MEMORY_BARRIER 
 #define INSTRUCTION_SYNC_BARRIER
-#endif
 #endif
 
 #define WR_BYTE_MP_(address,x) { *(volatile uint8_t *)(address) = (x); DATA_MEMORY_BARRIER; }
