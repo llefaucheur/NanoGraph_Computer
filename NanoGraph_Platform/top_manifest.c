@@ -125,10 +125,6 @@ const p_nanograph_services_t application_callbacks[MAX_NB_APP_CALLBACKS] =
 {   (void*)0,
     (void*)0,
     (void*)0,
-    (void*)0,
-    (void*)0,
-    (void*)0,
-    (void*)0,
     (void*)0
 };
 
@@ -190,7 +186,6 @@ void platform_init_specific(NanoGraph_init_t* data)
 #ifdef GRAPH_FROM_PLATFORM
     data->graph = get_graph_address(0);
 #endif
-
     data->long_offset = (uint8_t**)long_offset;           // pointer to "long_offset[MAX_PROC_MEMBANK]"
 
     data->node_entry_points = (p_nanograph_node)node_entry_points;             // list of nodes

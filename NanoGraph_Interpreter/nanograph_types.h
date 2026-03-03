@@ -72,8 +72,8 @@ typedef struct
     uint32_t *script;                           // indexed scripts 
     uint32_t *linked_list;                      // linked-list of nodes
     const p_io_function_ctrl *platform_io;      // access to IO (asynchronous IO, reset, set params)
-    const p_nanograph_node *node_entry_points;     // list of installed nodes
-    uint64_t *bit_field_services;               // int64[GROUP] of [FUNCTION] bits to the plaform services
+    const p_nanograph_node *node_entry_points;  // list of installed nodes
+    const uint64_t *bit_field_services;         // int64[GROUP] of [FUNCTION] bits to the plaform services
 
     /* only in RAM section */
     uint32_t *all_formats;                      // indexed stream formats (can be changed by the nodes)

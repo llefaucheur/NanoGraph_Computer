@@ -506,7 +506,7 @@
     "analog user-interface" called (knobs / needles) give controls and visibility on NODE parameters and
     are accessed with scripts 
 
-    use 0 and 1 like "pre0post1"
+    use 0 and 1 like "pre0post1", loaded in instance->entry_param
 */
 #define SCRIPT_PRERUN 0u        /* executed before calling the node : the Z flag is set */
 #define SCRIPT_POSTRUN 1u       /* executed after */

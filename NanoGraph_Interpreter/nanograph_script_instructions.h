@@ -47,11 +47,12 @@
 
     Registers 
         Instance static (ARC buffer) = 128 Bytes + processing = 150 Bytes
-            14 r0..r13 data in FP E16M32 format or in Pointer format
+            14 r0..r13 data in FP E8M32 format or in Pointer format
                r10..r13 are preset as pointers to heap (PTR_MEMBANK_HEAP)
-            1  r14 null register and used to load int/fp32 constant
+            1  r14 null register and used to load int/fp32 constant converted to E8M32
             1  r15 is mapped to the stack index "SP"  of the instance
             T  internal flag, result of the tests 0=No, 1=Yes
+            Y  shadow parameter register, selection of entry/exit script
 
     W32 script offset table[7 = 127 SCRIPT_LW0] to the byte codes 
         [SCRIPTSSZW32_GR1] = 
@@ -96,7 +97,7 @@
     
     p --- MSB word ----------------> <----- LSB word --------------->  
     1HHH____SIZE(12   BASE(12___TYPE <------------------------------> data TYPE for pointer access (p=1)
-    0_________________XXXXXXXX__TYPE <----either float or sint32----> (p=0) provision for extra matissa accuracy for integer operations
+    0___________________xxxxxxxxTYPE <---- FP E8M32             ----> (p=0) provision for extra matissa accuracy for integer operations
     FEDCBA9876543210FEDCBA987654321_ FEDCBA9876543210FEDCBA987654321_
 
     Encoded instructions : 
@@ -184,7 +185,7 @@
     push   R1 R2                   OP_SETJUMP OPLJ_SAVE    R15-11.1 ___________XX_               save on stack
     restore P3[-1]+ R1 R2          OP_SETJUMP OPLJ_RESTORE R15-10.1 ___________XX_  
     restore P3[1]+  R1 R2          OP_SETJUMP OPLJ_RESTORE R15-01.1 ___________XX_  restore in the reverse order
-        pop         R1 R2          OP_SETJUMP OPLJ_RESTORE R15-10.1 ___________XX_
+    pop    R1 R2                   OP_SETJUMP OPLJ_RESTORE R15-10.1 ___________XX_
 
 */
 
@@ -349,6 +350,7 @@
 #define OPLJ_SAVE         9 // save up to 14 registers
 #define OPLJ_RESTORE     10 // restore up to 14 registers   
 #define OPLJ_RETURN      11 // return {keep registers}
+#define OPLJ_PARAM       12 // move shadow parameter register to internal register
 
 #define OPLJ_NONE        32  
 
@@ -418,7 +420,7 @@
               01000000010000000000000000000000 = 3.0   = 2^(128-127) x (1 + 40 0000/80 0000) = 2 x 1.5
               MAX = 3.4E38    MIN = 1.2E-38
 
-    Format allowing full 32bits accuracy (for bit masking) and float32 accuracy :
+    Format allowing full 32bits accuracy (for bit masking) and float32 accuracy :   E8M32 ?
      01111111 01111111111111111111111111111111 = AMAX  = 2^127 x 0.999 = 1.701E38
      10000000 01000000000000000000000000000000 = AMIN  = 2^-128 x 0.5 = 1.47E-39
 

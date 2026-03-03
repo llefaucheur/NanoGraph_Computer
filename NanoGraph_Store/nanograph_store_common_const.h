@@ -422,9 +422,10 @@
 #define SERV_GROUP_MATH         3u  /* 8   N math.h */
 #define SERV_GROUP_DSP_ML       4u  /* 16  N cmsis-dsp */
 #define SERV_GROUP_DEEPL        5u  /* 32  N cmsis-nn */
-#define SERV_GROUP_MM_AUDIO     6u  /* 64  Y speech/audio processing */
-#define SERV_GROUP_MM_IMAGE     7u  /* 128 Y image processing */
-
+#define SERV_GROUP_MM_AUDIO     6u  /* 64  N speech/audio processing */
+#define SERV_GROUP_MM_IMAGE     7u  /* 128 N image processing */
+#define SERV_GROUP_MODELS       8u  /* 256 N DSP+NN model runtime (ptd/pte files?) */
+#define NB_SERV_GROUPS          8    /* size of table bit_field_services[] */
 
 /* --------------------------------------------------------------------------- */
 /* GROUP_SSRV = 1/SERV_GROUP_INTERNAL ---------------------------------------- */

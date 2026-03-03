@@ -128,6 +128,7 @@ static void script_processing(uint32_t script_index, uint32_t parameter)
     if (script_index == 0) return;
 
     // TODO @@@@
+    // set "entry_param" selection with "parameter"
     if (script_index == parameter)
         parameter = parameter;
 }

@@ -23,7 +23,7 @@
 #define NB_NODE_ENTRY_POINTS 30
 
 /* max number of application callbacks used from NODE and scripts */
-#define MAX_NB_APP_CALLBACKS 8
+#define MAX_NB_APP_CALLBACKS 4
 
 #define MULTIPROCESSING                 /* enable memory flush conditional codes */
 //#define MEMID0_CACHED                   /* ARC descriptors in MEMID0,  default is uncached (ex. Cortex-M0) */
@@ -139,8 +139,9 @@
     //#undef PLATFORM_SERV_SERV_DFT_Q15              /* DFT/Goertzel windowing, module, dB */
     //#undef PLATFORM_SERV_SERV_DFT_F32            
 
-    #define PLATFORM_SERV_DSP_CASCADE_DF1_Q15           /* IIR filters, use SERV_CHECK_COPROCESSOR */
-    //#define PLATFORM_SERV_DSP_CASCADE_DF1_F32         /* take the default implementation */
+#define PLATFORM_SERV_DSP_CASCADE_DF1_Q15           /* IIR filters, use SERV_CHECK_COPROCESSOR */
+#define PLATFORM_SERV_DSP_CASCADE_DF1_Q15_ESS       /*  error spectral shaping */          
+//#define PLATFORM_SERV_DSP_CASCADE_DF1_F32         /* take the default implementation */
 
     //#undef PLATFORM_SERV_SERV_WINDOW                
     //#undef PLATFORM_SERV_SERV_WINDOW_DB             
