@@ -27,7 +27,7 @@
  */
 
 
-#include "../../Include/dsp/computer_filtering_functions.h"
+#include "../../Include/dsp/platform_filtering_functions.h"
 /**
   @ingroup groupFilters
  */

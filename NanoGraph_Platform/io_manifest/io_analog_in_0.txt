@@ -1,9 +1,9 @@
 ; ------------------------------------------------------------------------------------------------------------
-; Manifest of audio line-out 
+; Manifest of analog A/D input ("motion" or "analog_in" or "gpio" domain) 
 ; ------------------------------------------------------------------------------------------------------------
                                                                        
-    io_platform_line_out_0              ; name for the tools                            
-    audio_out                           ; domain name,   unit: dB, Vrms
+    io_analog_in_0                      ; name for the tools                            
+    analog_in                           ; domain name,   unit: dB, Vrms
 
     io_direction_rx0tx1 1
 

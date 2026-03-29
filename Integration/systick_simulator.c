@@ -26,15 +26,12 @@
  */
 #include <time.h>       /* clock_t, clock, CLOCKS_PER_SEC */
 #include <stdint.h>
+#include "../top_manifest_included.h"
 
-extern void SysTickSetup (void);
-extern void Graph_SysTick_Handler (void);
 
 /* ============================================  TIME  ============================================== */
 
-#define TIME_BASE_1MS
-#define PROCESSOR_CLOCK 350000000L
-static volatile uint64_t graph_interpreter_time64;              /* one global variable */
+uint64_t graph_interpreter_time64;              /* one global variable */
 
 /*  graph_interpreter_time64" using a global variable
  *  FEDCBA987654321 FEDCBA987654321 FEDCBA987654321 FEDCBA9876543210
@@ -57,35 +54,58 @@ static volatile uint64_t graph_interpreter_time64;              /* one global va
 
 #define INV_RVR (0x100000000/GRAPHTIME64INC)
 
-/* ================================================================================================== */
-clock_t SysTick_previous_time;
 
 /* ============================================  TIME  ============================================== */
-/*  SysTick IRQ handler
+#ifdef PLATFORM_COMPUTER
+/*  SysTick IRQ handler for a computer
  */
 extern void graph_systick_scheduler(uint64_t time64);
 extern void Graph_SysTick_Handler (void);
        void Graph_SysTick_Handler (void)
 {
-    extern void graph_test_scheduler(uint64_t time64);
-    clock_t current_time;
+    //extern void graph_test_scheduler(uint64_t time64);
+    static clock_t SysTick_previous_time;
+    clock_t SysTick_current_time;
+    clock_t SysTick_delta_t;
     float delta_t;
 
-    current_time = clock();
-    delta_t = (float)(current_time - SysTick_previous_time)/CLOCKS_PER_SEC;
+    SysTick_current_time = clock();
+    SysTick_delta_t = SysTick_current_time - SysTick_previous_time;
+    delta_t = (float)SysTick_delta_t /CLOCKS_PER_SEC;
     
     if (delta_t > TIME_BASE)
     {   graph_interpreter_time64 = graph_interpreter_time64 + GRAPHTIME64INC;
-        graph_test_scheduler(graph_interpreter_time64);
-        SysTick_previous_time = current_time;
+        SysTick_previous_time = SysTick_current_time;
+        //graph_test_scheduler(graph_interpreter_time64);
     }
 }
 
-
-extern void SysTickSetup (void);
-       void SysTickSetup (void)
-{   
-    SysTick_previous_time = clock();
-    graph_interpreter_time64  = 0U;     // graph interpreter global counter
+extern void SysTickSetup(void);
+void SysTickSetup(void)
+{
+    graph_interpreter_time64 = 0;
 }
+
+#else
+
+extern void Graph_SysTick_Handler(void);
+       void Graph_SysTick_Handler(void)
+{
+    extern void graph_test_scheduler(uint64_t time64);
+    graph_interpreter_time64 = graph_interpreter_time64 + GRAPHTIME64INC;
+    //graph_test_scheduler(graph_interpreter_time64);
+}
+
+
+extern void SysTickSetup(void);
+void SysTickSetup(void)
+{
+    SysTick->LOAD = SYSTICK_LOAD_1MS;
+    SysTick->CTRL = 7;
+    SysTick->VAL = 0U;
+    graph_interpreter_time64 = 0U;     // graph interpreter global counter
+    NVIC_SetPriority(SysTick_IRQn, 2);
+    __enable_irq();
+}
+#endif
 /* ================================================================================================= */

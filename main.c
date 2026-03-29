@@ -30,8 +30,9 @@
 #include <stdio.h>
 
 extern void main_init(uint32_t *graph);
-extern int main_run(void);
+extern void main_run(void);
 extern void main_stop(void);
+extern void Graph_SysTick_Handler(void);
 extern uint8_t one_file_is_closed;
 
 
@@ -42,9 +43,13 @@ int main(void)
     */
     main_init(0);
 
-    /* interpret the graph until no more data is available */
+    /* 
+        interpret the graph until no more data is available 
+        Graph_SysTick_Handler calls graph_test_scheduler(time) 
+        which call the interpreter instance
+    */
     while (0 == one_file_is_closed)
-    {   extern void Graph_SysTick_Handler (void);
+    {   
         Graph_SysTick_Handler();
         main_run();
     }

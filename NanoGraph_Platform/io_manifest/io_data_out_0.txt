@@ -2,7 +2,7 @@
 ; Manifest of generic data_out (to the application)
 ; ------------------------------------------------------------------------------------------------------------
                                                                        
-    io_platform_data_out_0      ; name for the tools                            
+    io_data_out_0               ; name for the tools                            
     general                     ; domain name,   no specific field
     
     io_direction_rx0tx1     1

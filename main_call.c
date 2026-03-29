@@ -41,7 +41,6 @@ extern uint8_t platform_io_instance_idx;
 uintptr_t all_ptr_instances[NANOGRAPH_NB_INSTANCE];
 nanograph_instance_t my_instance;
 
-uint8_t one_file_is_closed;
 
 /**
   @brief        specific / accelerated computing services
@@ -113,20 +112,14 @@ void main_init(uint32_t *graph)
 
     /*  the Graph interpreter instance holds the memory pointers
         this is a read-only global variable to let the IO have access to ongoing[], arcs[], formats[] ..*/
+    /*  the Graph interpreter instance holds memory pointers to the graph sections
+        this global variable (read-only) lets the IO have access to the graph arcs[], formats[] ..*/
     platform_io_instance_idx = NANOGRAPH_CURRENT_INSTANCE;
     all_ptr_instances[NANOGRAPH_CURRENT_INSTANCE] = (uintptr_t)(&my_instance);
     platform_io_callback_parameter = &my_instance;
 
     /* reset the graph */
     nanograph_interpreter(NANOGRAPH_RESET, &my_instance, 0, 0); // platform_callbacks, platform_services_bits);
-
-    /* computer is using files */
-    one_file_is_closed = 0;
-
-    /* systick simulation */
-    {   extern void SysTickSetup (void);
-        SysTickSetup();
-    }
 }
 
 
@@ -169,6 +162,12 @@ void main_run(void)
     {   //arm_memory_swap(&(instance[NANOGRAPH_CURRENT_INSTANCE]));
     }
 
+    {
+        extern uint64_t graph_interpreter_time64; 
+        extern void graph_test_scheduler(uint64_t time64);
+        graph_test_scheduler(graph_interpreter_time64);
+    }
+
     nanograph_interpreter (NANOGRAPH_RUN, &my_instance, 0, 0);
 
     /* here test the need for memory recovery/swap
@@ -192,7 +191,7 @@ void Push_Ping_Pong(uint32_t *data, uint32_t size)
 {
     extern void NanoGraph_io_ack (uint8_t graph_io_idx, void *data, uintptr_t size);
 
-    NanoGraph_io_ack (IO_PLATFORM_SENSOR_0, (uint8_t *)data, size);
+    NanoGraph_io_ack (IO_PLATFORM_SENSOR_IN_0, (uint8_t *)data, size);
 }
 
 /**

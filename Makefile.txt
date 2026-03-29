@@ -21,7 +21,7 @@ INCLUDES := $(addprefix -I,$(INCLUDE_DIRS))
 
 # Debug / Release
 DEBUG ?= 0
-CFLAGS_COMMON := -std=gnu11 -Wall -Wextra -pedantic
+CFLAGS_COMMON := -std=gnu11 -Wall -Wextra -Wpedantic -Wunused-parameter
 ifeq ($(DEBUG),1)
     CFLAGS := $(CFLAGS_COMMON) -g -O0
 else

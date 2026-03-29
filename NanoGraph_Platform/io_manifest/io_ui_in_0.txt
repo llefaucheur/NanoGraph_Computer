@@ -1,12 +1,7 @@
 ; ------------------------------------------------------------------------------------------------------------
-; Manifest of GPIO output
+; Manifest of ui_in_0 buttons, slider ("user_interface" domain)
 ; ------------------------------------------------------------------------------------------------------------
                                                                        
-    io_platform_gpio_out_0 ; name for the tools                            
-    gpio                   ; domain name,   no specific field
-
-    io_direction_rx0tx1 1
-
-    io_frame_length        {32}
-
+    io_ui_in_0              ; name for the tools 
+    general                 ; domain name,   no specific field
     end
